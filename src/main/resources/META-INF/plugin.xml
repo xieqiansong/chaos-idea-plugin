@@ -29,31 +29,12 @@
     </extensions>
 
     <actions>
-        <!-- 1. 新建自定义 Group -->
-        <group
-                id="MyCustomGroup"
-                text="Custom Actions"
-                popup="true"
-                description="My custom text replacement actions">
+        <group id="CustomGroup" text="Custom Actions" popup="true" description="My custom text replacement actions">
 
-            <!-- 2. 将 Action 添加到新 Group -->
-            <action
-                    id="CustomReplaceAction"
-                    class="lan.confusion.confusionideaplugin.CustomReplaceAction"
-                    text="Custom Replace"
-                    description="Replace selected text with custom logic"/>
+            <action id="CustomReverse" class="lan.confusion.confusionideaplugin.CustomReverseAction"
+                    text="Reverse String" description="Replace selected text with custom logic"/>
 
-            <!-- 2. 将 Action 添加到新 Group -->
-            <action
-                    id="CustomReplaceAction2"
-                    class="lan.confusion.confusionideaplugin.CustomReplaceAction"
-                    text="Custom Replace2"
-                    description="Replace selected text with custom logic"/>
-
-
-            <!-- 可添加更多 action -->
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
-
         </group>
     </actions>
 
