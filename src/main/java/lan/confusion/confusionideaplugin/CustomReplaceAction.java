@@ -7,6 +7,9 @@ import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 
+/**
+ * 自定义替换选中文本的Action
+ */
 public class CustomReplaceAction extends AnAction {
     @Override
     public void actionPerformed(AnActionEvent e) {
