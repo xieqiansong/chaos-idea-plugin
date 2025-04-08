@@ -5,18 +5,24 @@
 
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
-    <name>Confusion-idea-plugin</name>
+    <name>CustomScript</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor email="support@yourcompany.com" url="https://www.yourcompany.com">YourCompany</vendor>
+    <vendor email="xieqiansong@qq.com" url="http://confusion.lan">Confusion</vendor>
 
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
-    Enter short description for your plugin here.<br>
-    <em>most HTML tags may be used</em>
-  ]]></description>
+   CustomScript is a powerful plugin designed to enhance your development workflow by providing custom text manipulation and terminal integration features. With this plugin, you can:
+
+   - Send selected text directly to the terminal for execution.
+   - Reverse strings or apply custom logic to transform text.
+
+   This plugin is ideal for developers who need quick access to terminal commands or require advanced text processing capabilities within their IDE.
+
+   ]]></description>
+
 
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
@@ -30,10 +36,8 @@
 
     <actions>
         <group id="CustomGroup" text="Custom Actions" popup="true" description="My custom text replacement actions">
-
-            <action id="CustomReverse" class="lan.confusion.confusionideaplugin.CustomReverseAction"
-                    text="Reverse String" description="Replace selected text with custom logic"/>
-
+            <action id="SendToTerminal" class="lan.confusion.confusionideaplugin.SendToTerminalAction" text="Send to Terminal" description="Send selected text to terminal"/>
+            <action id="CustomReverse" class="lan.confusion.confusionideaplugin.CustomReverseAction" text="Reverse String" description="Replace selected text with custom logic"/>
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </group>
     </actions>
