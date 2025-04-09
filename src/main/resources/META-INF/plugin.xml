@@ -36,8 +36,8 @@
 
     <actions>
         <group id="CustomGroup" text="Custom Actions" popup="true" description="My custom text replacement actions">
-            <action id="SendToTerminal" class="lan.confusion.confusionideaplugin.SendToTerminalAction" text="Send to Terminal" description="Send selected text to terminal"/>
-            <action id="CustomReverse" class="lan.confusion.confusionideaplugin.CustomReverseAction" text="Reverse String" description="Replace selected text with custom logic"/>
+            <action id="Custom.SendToTerminal" class="lan.confusion.confusionideaplugin.SendToTerminalAction" text="Send to Terminal" description="Send selected text to terminal"/>
+            <action id="Custom.Reverse" class="lan.confusion.confusionideaplugin.CustomReverseAction" text="Reverse String" description="Replace selected text with custom logic"/>
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </group>
     </actions>
