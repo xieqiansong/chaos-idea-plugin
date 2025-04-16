@@ -56,7 +56,7 @@ public class SendToTerminalAction extends AnAction {
             TtyConnector connector = terminalWidget.getTtyConnector();
             if (connector instanceof ProcessTtyConnector) {
                 // 发送命令并执行（\r\n对应回车）
-                String command = selectedText + "\r\n";
+                String command = selectedText + "\r";
                 try {
                     connector.write(command);
                 } catch (IOException ex) {
