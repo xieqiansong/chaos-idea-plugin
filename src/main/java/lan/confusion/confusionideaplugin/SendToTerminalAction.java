@@ -44,7 +44,7 @@ public class SendToTerminalAction extends AnAction {
         terminalWindow.activate(() -> {
             // 使用新的方式获取 Terminal 组件
             JBTerminalWidget terminalWidget = null;
-            if (terminalWindow.isActive()) {
+            if (terminalWindow.isAvailable()) {
                 Content content = terminalWindow.getContentManager().getContent(0);
                 if (content != null) {
                     JComponent component = content.getComponent();
