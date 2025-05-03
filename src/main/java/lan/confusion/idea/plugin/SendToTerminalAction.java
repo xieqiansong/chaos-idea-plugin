@@ -1,4 +1,4 @@
-package lan.confusion.confusionideaplugin;
+package lan.confusion.idea.plugin;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;

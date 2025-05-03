@@ -1,4 +1,4 @@
-package lan.confusion.confusionideaplugin;
+package lan.confusion.idea.plugin;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -13,6 +13,8 @@ import com.intellij.openapi.util.TextRange;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,50 +35,38 @@ public class CustomReplaceAction {
 
         // 处理选中文本的情况
         if (selectionModel.hasSelection()) {
-            handleSelection(document, selectionModel, project, replaceFunc);
+            int start = selectionModel.getSelectionStart();
+            int end = selectionModel.getSelectionEnd();
+            String selectedText = selectionModel.getSelectedText();
+            if (selectedText == null) return;
+
+            String converted = replaceFunc.apply(selectedText);
+            WriteCommandAction.runWriteCommandAction(project, () -> document.replaceString(start, end, converted));
         }
         // 处理光标所在单词的情况
         else {
-            handleWordAtCaret(editor, document, project, replaceFunc);
+            Caret caret = editor.getCaretModel().getCurrentCaret();
+            int offset = caret.getOffset();
+
+            // 获取光标所在单词的边界
+            CharSequence text = document.getCharsSequence();
+            int start = offset;
+            int end = offset;
+
+            // 查找单词左边界
+            while (start > 0 && Character.isLetterOrDigit(text.charAt(start - 1))) start--;
+            // 查找单词右边界
+            while (end < text.length() && Character.isLetterOrDigit(text.charAt(end))) end++;
+
+            TextRange wordRange = start < end ? new TextRange(start, end) : null;
+            if (wordRange == null) return;
+
+            String word = document.getText(wordRange);
+            String converted = replaceFunc.apply(word);
+            WriteCommandAction.runWriteCommandAction(project, () -> document.replaceString(wordRange.getStartOffset(), wordRange.getEndOffset(), converted));
         }
     }
 
-
-    public static void handleSelection(Document document, SelectionModel selectionModel, Project project, Function<String, String> replaceFunc) {
-        int start = selectionModel.getSelectionStart();
-        int end = selectionModel.getSelectionEnd();
-        String selectedText = selectionModel.getSelectedText();
-        if (selectedText == null) return;
-
-        String converted = replaceFunc.apply(selectedText);
-        WriteCommandAction.runWriteCommandAction(project, () -> {
-            document.replaceString(start, end, converted);
-        });
-    }
-
-    public static void handleWordAtCaret(Editor editor, Document document, Project project, Function<String, String> replaceFunc) {
-        Caret caret = editor.getCaretModel().getCurrentCaret();
-        int offset = caret.getOffset();
-
-        // 获取光标所在单词的边界
-        CharSequence text = document.getCharsSequence();
-        int start = offset;
-        int end = offset;
-
-        // 查找单词左边界
-        while (start > 0 && Character.isLetterOrDigit(text.charAt(start - 1))) start--;
-        // 查找单词右边界
-        while (end < text.length() && Character.isLetterOrDigit(text.charAt(end))) end++;
-
-        TextRange wordRange = start < end ? new TextRange(start, end) : null;
-        if (wordRange == null) return;
-
-        String word = document.getText(wordRange);
-        String converted = replaceFunc.apply(word);
-        WriteCommandAction.runWriteCommandAction(project, () -> {
-            document.replaceString(wordRange.getStartOffset(), wordRange.getEndOffset(), converted);
-        });
-    }
 
     public static class Reverse extends AnAction {
         @Override
@@ -107,10 +97,7 @@ public class CustomReplaceAction {
                 // 移除首尾空白并分割为行数组
                 String[] items = text.trim().split("\\r?\\n");
                 // 使用流过滤空行并修剪空白
-                String filtered = Arrays.stream(items)
-                        .map(String::trim)
-                        .filter(item -> !item.isEmpty())
-                        .collect(Collectors.joining("', '"));
+                String filtered = Arrays.stream(items).map(String::trim).filter(item -> !item.isEmpty()).collect(Collectors.joining("', '"));
                 // 处理空结果情况
                 if (filtered.isEmpty()) return "('')";
                 return String.format("('%s')", filtered);
@@ -151,5 +138,35 @@ public class CustomReplaceAction {
             });
         }
     }
+
+
+    public static class SwitchFileSeparator extends AnAction {
+        @Override
+        public void actionPerformed(@NotNull AnActionEvent anActionEvent) {
+            replace(anActionEvent, text -> {
+                // 定义正则切换顺序
+                String BACKSLASH = "/", SLASH = "\\\\", DOUBLE_SLASH = "\\\\\\\\";
+                Map<String, String> nextReplacementMap = new HashMap<>() {{
+                    put(BACKSLASH, SLASH);
+                    put(SLASH, DOUBLE_SLASH);
+                    put(DOUBLE_SLASH, BACKSLASH);
+                }};
+                Function<String, String> currentReplacement = (input) -> {
+                    for (int i = 0; i < input.length(); i++) {
+                        if (input.charAt(i) == '/') return BACKSLASH;
+                        if (input.charAt(i) == '\\') {
+                            // 检查下一个字符是否也是反斜杠
+                            if (i + 1 < input.length() && input.charAt(i + 1) == '\\') return DOUBLE_SLASH;
+                            return SLASH;
+                        }
+                    }
+                    return BACKSLASH;
+                };
+                // 替换所有连续的正斜杠或反斜杠为新的分隔符
+                return text.replaceAll("[/\\\\]+", nextReplacementMap.get(currentReplacement.apply(text)));
+            });
+        }
+    }
+
 
 }

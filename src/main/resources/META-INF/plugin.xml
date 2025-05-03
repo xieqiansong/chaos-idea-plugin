@@ -36,11 +36,18 @@
 
     <actions>
         <group id="CustomGroup" text="Custom Actions" popup="true" description="My custom text replacement actions">
-            <action id="Custom.SendToTerminal" class="lan.confusion.confusionideaplugin.SendToTerminalAction" text="Send to Terminal" description="Send selected text to terminal"/>
-            <action id="Custom.Reverse" class="lan.confusion.confusionideaplugin.CustomReplaceAction$Reverse" text="Reverse String" description="Invert string"/>
-            <action id="Custom.Minify" class="lan.confusion.confusionideaplugin.CustomReplaceAction$Minify" text="Reverse String" description="Minify textarea"/>
-            <action id="Custom.LinesToSqlWhereIn" class="lan.confusion.confusionideaplugin.CustomReplaceAction$LinesToSqlWhereIn" text="Reverse String" description="Lines to sql where in"/>
-            <action id="Custom.CsvToSqlValues" class="lan.confusion.confusionideaplugin.CustomReplaceAction$CsvToSqlValues" text="Reverse String" description="Csv to sql values"/>
+            <action id="Custom.SendToTerminal" class="lan.confusion.idea.plugin.SendToTerminalAction"
+                    text="Send to Terminal" description="Send selected text to terminal"/>
+            <action id="Custom.Reverse" class="lan.confusion.idea.plugin.CustomReplaceAction$Reverse"
+                    text="Reverse" description="Invert string"/>
+            <action id="Custom.Minify" class="lan.confusion.idea.plugin.CustomReplaceAction$Minify"
+                    text="Minify" description="Minify textarea"/>
+            <action id="Custom.LinesToSqlWhereIn" class="lan.confusion.idea.plugin.CustomReplaceAction$LinesToSqlWhereIn"
+                    text="LinesToSqlWhereIn" description="Lines to sql where in"/>
+            <action id="Custom.CsvToSqlValues" class="lan.confusion.idea.plugin.CustomReplaceAction$CsvToSqlValues"
+                    text="CsvToSqlValues" description="Csv to sql values"/>
+            <action id="Custom.SwitchFileSeparator" class="lan.confusion.idea.plugin.CustomReplaceAction$SwitchFileSeparator"
+                    text="SwitchFileSeparator" description="Switch file separator"/>
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </group>
     </actions>
