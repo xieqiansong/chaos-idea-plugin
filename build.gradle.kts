@@ -24,7 +24,6 @@ intellij {
 }
 
 dependencies {
-    implementation("lan.confusion:common:1.0.0")
 }
 
 tasks {
