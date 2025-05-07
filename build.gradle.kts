@@ -23,10 +23,6 @@ intellij {
     plugins.set(listOf(/* Plugin Dependencies */"terminal"))
 }
 
-dependencies {
-    implementation("lan.confusion:common:1.0.0")
-}
-
 tasks {
     // Set the JVM compatibility versions
     withType<JavaCompile> {
