@@ -1,44 +1,123 @@
+import org.jetbrains.changelog.Changelog
+import org.jetbrains.changelog.markdownToHTML
+import org.jetbrains.intellij.platform.gradle.TestFrameworkType
+
 plugins {
     id("java")
-    id("org.jetbrains.kotlin.jvm") version "1.9.25"
-    id("org.jetbrains.intellij") version "1.17.4"
+    kotlin("jvm") version "1.9.23"
+    id("org.jetbrains.intellij.platform") version "2.1.0"
+    id("org.jetbrains.changelog") version "2.2.1"
+    id("com.diffplug.spotless") version "6.25.0"
+    id("pmd")
 }
 
-group = "lan.confusion"
-version = "1.0.0-SNAPSHOT"
+changelog {
+    version.set(providers.gradleProperty("pluginVersion"))
+    path.set(file("CHANGELOG.md").canonicalPath)
+    header.set(provider { "[${version.get()}]" })
+    headerParserRegex.set("""(\d+\.\d+\.\d+)""".toRegex())
+    itemPrefix.set("-")
+    keepUnreleasedSection.set(true)
+    unreleasedTerm.set("[Next]")
+    groups.set(listOf(""))
+}
 
 repositories {
     mavenLocal()
     maven { url = uri("https://ubuntu.lan:10122/repository/maven-public") }
-//    mavenCentral()
-}
-
-// Configure Gradle IntelliJ Plugin
-// Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
-intellij {
-    localPath.set("D:\\platform\\ideaIU-2024.3.3.win")
-//    version.set("2024.1.7")
-//    type.set("IC") // Target IDE Platform
-
-    plugins.set(listOf(/* Plugin Dependencies */"terminal"))
+    intellijPlatform {
+        defaultRepositories()
+    }
 }
 
 dependencies {
+    testImplementation("junit:junit:4.13.2")
+    intellijPlatform {
+        local("D:\\opt\\ideaIU-2024.3.6")
+
+//        create(providers.gradleProperty("platformType"), providers.gradleProperty("platformVersion"))
+        bundledPlugins(providers.gradleProperty("platformBundledPlugins").map { it.split(',') })
+        plugins(providers.gradleProperty("platformPlugins").map { it.split(',') })
+        instrumentationTools()
+        pluginVerifier()
+        zipSigner()
+        testFramework(TestFrameworkType.Platform)
+    }
+}
+
+intellijPlatform {
+    pluginConfiguration {
+        id = providers.gradleProperty("pluginId")
+        name = providers.gradleProperty("pluginName")
+        version = providers.gradleProperty("pluginVersion")
+        description = providers.fileContents(layout.projectDirectory.file("README.md")).asText.map {
+            val start = "<!-- Plugin description -->"
+            val end = "<!-- Plugin description end -->"
+
+            with(it.lines()) {
+                if (!containsAll(listOf(start, end))) {
+                    throw GradleException("Plugin description section not found in README.md:\n$start ... $end")
+                }
+                subList(indexOf(start) + 1, indexOf(end)).joinToString("\n").let(::markdownToHTML)
+            }
+        }
+        ideaVersion {
+            sinceBuild = providers.gradleProperty("pluginSinceBuild")
+            untilBuild = provider { null }
+        }
+        val changelog = project.changelog
+        changeNotes = providers.gradleProperty("pluginVersion").map { pluginVersion ->
+            with(changelog) {
+                renderItem(
+                    (getOrNull(pluginVersion) ?: getUnreleased())
+                        .withHeader(false)
+                        .withEmptySections(false),
+                    Changelog.OutputType.HTML,
+                )
+            }
+        }
+    }
+    publishing {
+        token = providers.environmentVariable("PUBLISH_TOKEN")
+        channels = providers.gradleProperty("pluginVersion")
+            .map { listOf(it.substringAfter('-', "").substringBefore('.').ifEmpty { "default" }) }
+    }
+    pluginVerification {
+        ides {
+            recommended()
+        }
+    }
+}
+
+spotless {
+    java {
+        removeUnusedImports()
+        googleJavaFormat("1.22.0")
+            .aosp()
+            .reflowLongStrings()
+            .groupArtifact("com.google.googlejavaformat:google-java-format")
+    }
+}
+
+pmd {
+    isConsoleOutput = true
+    toolVersion = "6.46.0"
+    rulesMinimumPriority.set(5)
+    ruleSetFiles = rootProject.files("pmd-config.xml")
+    ruleSets = emptyList()
+    isIgnoreFailures = false
+}
+
+tasks.named<Pmd>("pmdMain") {
+    reports {
+        html.required.set(true)
+    }
 }
 
 tasks {
-    // Set the JVM compatibility versions
     withType<JavaCompile> {
-        sourceCompatibility = "21"
-        targetCompatibility = "21"
-    }
-    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions.jvmTarget = "21"
-    }
-
-    patchPluginXml {
-        sinceBuild.set("241")
-        untilBuild.set("243.*")
+        sourceCompatibility = "17"
+        targetCompatibility = "17"
     }
 
     signPlugin {
@@ -49,5 +128,7 @@ tasks {
 
     publishPlugin {
         token.set(System.getenv("PUBLISH_TOKEN"))
+        dependsOn(patchChangelog)
     }
+
 }

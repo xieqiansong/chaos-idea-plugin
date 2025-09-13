@@ -35,7 +35,11 @@ public class CustomReplaceAction {
             if (selectedText == null) return;
 
             String converted = replaceFunc.apply(selectedText);
-            WriteCommandAction.runWriteCommandAction(project, () -> document.replaceString(start, end, converted));
+            WriteCommandAction.runWriteCommandAction(project, () -> {
+                document.replaceString(start, end, converted);
+                // 选中转换后的文本
+                selectionModel.setSelection(start, start + converted.length());
+            });
         }
         // 处理光标所在单词的情况
         else {
