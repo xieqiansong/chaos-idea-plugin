@@ -21,13 +21,12 @@ import com.maddyhome.idea.vim.key.KeyMapping;
 import com.maddyhome.idea.vim.key.MappingInfo;
 import com.maddyhome.idea.vim.newapi.IjVimEditorKt;
 import com.maddyhome.idea.vim.register.Register;
-import kotlin.Pair;
-import org.jetbrains.annotations.NotNull;
-
-import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+import javax.swing.*;
+import kotlin.Pair;
+import org.jetbrains.annotations.NotNull;
 
 public class Peekaboo implements VimExtension {
     // UI Colors

@@ -10,13 +10,10 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
+import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.function.Function;
-
-/**
- * 自定义替换选中文本的Action
- */
+/** 自定义替换选中文本的Action */
 public class CustomReplaceAction {
 
     private static void replace(AnActionEvent anActionEvent, Function<String, String> replaceFunc) {
@@ -35,11 +32,13 @@ public class CustomReplaceAction {
             if (selectedText == null) return;
 
             String converted = replaceFunc.apply(selectedText);
-            WriteCommandAction.runWriteCommandAction(project, () -> {
-                document.replaceString(start, end, converted);
-                // 选中转换后的文本
-                selectionModel.setSelection(start, start + converted.length());
-            });
+            WriteCommandAction.runWriteCommandAction(
+                    project,
+                    () -> {
+                        document.replaceString(start, end, converted);
+                        // 选中转换后的文本
+                        selectionModel.setSelection(start, start + converted.length());
+                    });
         }
         // 处理光标所在单词的情况
         else {
@@ -61,7 +60,13 @@ public class CustomReplaceAction {
 
             String word = document.getText(wordRange);
             String converted = replaceFunc.apply(word);
-            WriteCommandAction.runWriteCommandAction(project, () -> document.replaceString(wordRange.getStartOffset(), wordRange.getEndOffset(), converted));
+            WriteCommandAction.runWriteCommandAction(
+                    project,
+                    () ->
+                            document.replaceString(
+                                    wordRange.getStartOffset(),
+                                    wordRange.getEndOffset(),
+                                    converted));
         }
     }
 
@@ -99,5 +104,4 @@ public class CustomReplaceAction {
             replace(anActionEvent, CodingUtils::switchFileSeparator);
         }
     }
-
 }
