@@ -23,11 +23,9 @@ changelog {
 }
 
 repositories {
-    mavenLocal()
     maven { url = uri("https://ubuntu.lan:10122/repository/maven-public") }
     mavenCentral()
     intellijPlatform {
-        mavenLocal()
         maven { url = uri("https://ubuntu.lan:10122/repository/maven-public") }
         mavenCentral()
         defaultRepositories()
@@ -35,6 +33,7 @@ repositories {
 }
 
 dependencies {
+    implementation("cn.hutool:hutool-all:5.8.40")
     testImplementation("junit:junit:4.13.2")
     intellijPlatform {
         local("D:\\opt\\ideaIU-2024.3.6")

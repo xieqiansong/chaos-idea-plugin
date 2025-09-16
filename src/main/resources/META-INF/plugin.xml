@@ -7,12 +7,14 @@
     <depends>com.intellij.modules.platform</depends>
     <depends>IdeaVIM</depends>
 
+    <!--
         <extensions defaultExtensionNs="IdeaVIM">
             <vimExtension implementation="lan.confusion.idea.plugin.Peekaboo"/>
         </extensions>
+    -->
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow id="MyToolWindow" anchor="right" factoryClass="lan.confusion.idea.plugin.MyToolWindowFactory"/>
+        <toolWindow id="CustomToolWindow" anchor="right" factoryClass="lan.confusion.idea.plugin.CustomToolWindowFactory"/>
     </extensions>
 
 

@@ -21,10 +21,12 @@ import com.maddyhome.idea.vim.key.KeyMapping;
 import com.maddyhome.idea.vim.key.MappingInfo;
 import com.maddyhome.idea.vim.newapi.IjVimEditorKt;
 import com.maddyhome.idea.vim.register.Register;
+
 import java.awt.*;
 import java.util.*;
 import java.util.List;
 import javax.swing.*;
+
 import kotlin.Pair;
 import org.jetbrains.annotations.NotNull;
 
@@ -57,7 +59,7 @@ public class Peekaboo implements VimExtension {
                 };
 
         static final String[] SPECIAL_REGISTERS = {
-            "\"", "*", "+", "%", "#", ".", ":", "/", "=", "-"
+                "\"", "*", "+", "%", "#", ".", ":", "/", "=", "-"
         };
     }
 
@@ -139,10 +141,10 @@ public class Peekaboo implements VimExtension {
         private String createHtmlHeader() {
             return String.format(
                     """
-                    <html>
-                    <body style='margin: 3px; width: 100%%; background-color: %s; color: %s;'>
-                    <div style='font-family: monospace; min-width: 600px;'>
-                    """,
+                            <html>
+                            <body style='margin: 3px; width: 100%%; background-color: %s; color: %s;'>
+                            <div style='font-family: monospace; min-width: 600px;'>
+                            """,
                     Colors.BACKGROUND, Colors.TEXT);
         }
 
@@ -214,8 +216,8 @@ public class Peekaboo implements VimExtension {
             html.append(
                     String.format(
                             "<div style='margin-bottom: 8px; color: %s;'>Delete/Change History<span"
-                                + " style='margin-left: 8px; color: %s;'>(deleted/changed content"
-                                + " larger than one line)</span></div>",
+                                    + " style='margin-left: 8px; color: %s;'>(deleted/changed content"
+                                    + " larger than one line)</span></div>",
                             Colors.HEADER, Colors.COMMENT));
 
             for (int i = 1; i <= 9; i++) {
@@ -271,13 +273,13 @@ public class Peekaboo implements VimExtension {
             html.append(
                     String.format(
                             """
-                            <div style='display: flex; margin-bottom: 4px; align-items: baseline;'>
-                                <span style='color: %s; font-weight: bold;'>%s</span>
-                                <span style='color: %s;'> → </span>
-                                <span style='color: %s;'>%s</span>
-                                %s
-                            </div>
-                            """,
+                                    <div style='display: flex; margin-bottom: 4px; align-items: baseline;'>
+                                        <span style='color: %s; font-weight: bold;'>%s</span>
+                                        <span style='color: %s;'> → </span>
+                                        <span style='color: %s;'>%s</span>
+                                        %s
+                                    </div>
+                                    """,
                             Colors.REGISTER,
                             register,
                             Colors.COMMENT,
@@ -285,9 +287,9 @@ public class Peekaboo implements VimExtension {
                             formatRegisterContent(content),
                             description != null
                                     ? String.format(
-                                            "<span style='color: %s; margin-left:"
-                                                    + " 8px;'>(%s)</span>",
-                                            Colors.COMMENT, description)
+                                    "<span style='color: %s; margin-left:"
+                                            + " 8px;'>(%s)</span>",
+                                    Colors.COMMENT, description)
                                     : ""));
         }
 
