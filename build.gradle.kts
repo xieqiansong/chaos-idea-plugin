@@ -35,6 +35,8 @@ repositories {
 dependencies {
     implementation("cn.hutool:hutool-all:5.8.40")
     testImplementation("junit:junit:4.13.2")
+    compileOnly("org.projectlombok:lombok:1.18.36")
+    annotationProcessor("org.projectlombok:lombok:1.18.36")
     intellijPlatform {
         local("D:\\opt\\ideaIU-2024.3.6")
 
