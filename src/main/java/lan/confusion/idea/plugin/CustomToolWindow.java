@@ -3,18 +3,20 @@ package lan.confusion.idea.plugin;
 import cn.hutool.core.util.StrUtil;
 import com.intellij.openapi.project.Project;
 import com.maddyhome.idea.vim.VimPlugin;
-import com.maddyhome.idea.vim.register.Register;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Iterator;
 import java.util.Objects;
 
 @Data
 public class CustomToolWindow {
     private final JPanel content;
     private final Project project;
+
+    static final String[] SPECIAL_REGISTERS = {"\"", "*", "+", "%", "#", ".", ":", "/", "=", "-"};
 
     public CustomToolWindow(Project project) {
         this.project = project;
@@ -33,17 +35,18 @@ public class CustomToolWindow {
         if (!VimPlugin.isEnabled()) {
             return;
         }
+
         /* Vim Registers */
-        java.util.List<RegisterDesc> list = VimPlugin.getRegister().getRegisters()
+        Iterator<RegisterDesc> iterator = VimPlugin.getRegister().getRegisters()
                 .stream()
                 .filter(Objects::nonNull)
                 .filter(reg -> StrUtil.isNotBlank(reg.getText()))
-                .map(o -> new RegisterDesc(o.getName(), o.getText()))
-                .toList();
+                .map(o -> new RegisterDesc(String.valueOf(o.getName()), o.getText()))
+                .iterator();
 
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        for (RegisterDesc reg : list) {
+        iterator.forEachRemaining(reg -> {
             String regText = reg.getText();
             String[] lines = regText.split("\n");
             StringBuilder cleanedText = new StringBuilder();
@@ -51,14 +54,10 @@ public class CustomToolWindow {
                 if (i > 0) cleanedText.append("⏎");
                 cleanedText.append(lines[i].trim());
             }
-//            int panelWidth = content.getWidth() > 0 ? content.getWidth() - 20 : 300;
-//            panel.add(new JLabel(StrUtil.format(
-//                    "<html><div style='width: {}px;'>\"<span style='color: red;'>{}</span>  {}</div></html>",
-//                    panelWidth, reg.getName(), cleanedText.toString())));
             panel.add(new JLabel(StrUtil.format(
                     "<html><div style='width: 100%;'>\"<span style='color: red;'>{}</span>  {}</div></html>",
                     reg.getName(), cleanedText.toString())));
-        }
+        });
         panel.add(new JSeparator());
 
         JScrollPane scrollPane = new JScrollPane(panel);
@@ -74,7 +73,7 @@ public class CustomToolWindow {
     @Data
     @AllArgsConstructor
     public static class RegisterDesc {
-        private Character name;
+        private String name;
         private String text;
     }
 

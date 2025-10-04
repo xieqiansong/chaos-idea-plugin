@@ -5,7 +5,6 @@ import com.intellij.openapi.ui.popup.Balloon;
 import com.intellij.openapi.ui.popup.JBPopupFactory;
 import com.intellij.openapi.wm.IdeFrame;
 import com.intellij.openapi.wm.WindowManager;
-import com.intellij.ui.Gray;
 import com.intellij.ui.awt.RelativePoint;
 import com.maddyhome.idea.vim.KeyHandler;
 import com.maddyhome.idea.vim.VimPlugin;
@@ -21,21 +20,22 @@ import com.maddyhome.idea.vim.key.KeyMapping;
 import com.maddyhome.idea.vim.key.MappingInfo;
 import com.maddyhome.idea.vim.newapi.IjVimEditorKt;
 import com.maddyhome.idea.vim.register.Register;
-
-import java.awt.*;
-import java.util.*;
-import java.util.List;
-import javax.swing.*;
-
 import kotlin.Pair;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.*;
+import java.awt.*;
+import java.util.*;
+import java.util.List;
+
+/**
+ * @author xqs
+ */
 public class Peekaboo implements VimExtension {
     // UI Colors
     private static final class Colors {
-        static final String REGISTER = "#FFFFFF";
-        static final String BACKGROUND = "#2b2b2b";
-        static final String TEXT = "#A9B7C6";
+        static final String REGISTER = "#000000";
+        static final String TEXT = "#000000";
         static final String HEADER = "#FFC66D";
         static final String COMMENT = "#808080";
     }
@@ -142,10 +142,10 @@ public class Peekaboo implements VimExtension {
             return String.format(
                     """
                             <html>
-                            <body style='margin: 3px; width: 100%%; background-color: %s; color: %s;'>
+                            <body style='margin: 3px; width: 100%%;  color: %s;'>
                             <div style='font-family: monospace; min-width: 600px;'>
                             """,
-                    Colors.BACKGROUND, Colors.TEXT);
+                    Colors.TEXT);
         }
 
         private void appendRegisterSection(StringBuilder html, String title, String[] registers) {
@@ -241,9 +241,11 @@ public class Peekaboo implements VimExtension {
 
         // Helper method to show the balloon popup
         private void showBalloon(VimEditor vimEditor, String htmlContent) {
+            // 使用透明背景色
+            Color fillColor = new Color(255, 255, 255, 255);
             Balloon balloon =
                     JBPopupFactory.getInstance()
-                            .createHtmlTextBalloonBuilder(htmlContent, null, Gray._43, null)
+                            .createHtmlTextBalloonBuilder(htmlContent, null, fillColor, null)
                             .setAnimationCycle(10)
                             .setHideOnClickOutside(true)
                             .setHideOnKeyOutside(true)
