@@ -6,3 +6,5 @@ pluginManagement {
 }
 
 rootProject.name = "confusion-idea-plugin"
+
+include("IdeaVIM", "AceJump")

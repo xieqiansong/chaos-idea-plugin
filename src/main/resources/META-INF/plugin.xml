@@ -6,15 +6,31 @@
 
     <depends>com.intellij.modules.platform</depends>
     <depends>IdeaVIM</depends>
+    <depends>AceJump</depends>
 
     <extensions defaultExtensionNs="IdeaVIM">
         <vimExtension implementation="lan.confusion.idea.plugin.Peekaboo"/>
     </extensions>
 
+    <extensions defaultExtensionNs="IdeaVIM">
+        <vimExtension implementation="org.jetbrains.plugins.extension.easymotion.EasyMotionExtension" name="easymotion">
+            <aliases>
+                <alias name="https://github.com/easymotion/vim-easymotion"/>
+                <alias name="easymotion/vim-easymotion"/>
+                <alias name="vim-easymotion"/>
+            </aliases>
+        </vimExtension>
+    </extensions>
+
+    <projectListeners>
+        <listener class="org.jetbrains.plugins.extension.easymotion.EasyMotionActionListener"
+                  topic="com.intellij.openapi.actionSystem.ex.AnActionListener"/>
+    </projectListeners>
+
+
     <!--    <extensions defaultExtensionNs="com.intellij">-->
     <!--        <toolWindow id="CustomToolWindow" anchor="right" factoryClass="lan.confusion.idea.plugin.CustomToolWindowFactory"/>-->
     <!--    </extensions>-->
-
 
     <actions>
         <group id="CustomGroup" text="Custom Actions" popup="true" description="My custom text replacement actions">

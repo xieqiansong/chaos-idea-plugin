@@ -1,0 +1,52 @@
+/*
+ * IdeaVim-EasyMotion. Easymotion emulator plugin for IdeaVim.
+ * Copyright (C) 2019-2022  Alex Plate
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+package org.jetbrains.plugins.extension.easymotion
+
+import com.intellij.openapi.actionSystem.*
+import com.intellij.openapi.actionSystem.ex.AnActionListener
+import com.maddyhome.idea.vim.api.dropLastJump
+import com.maddyhome.idea.vim.api.injector
+import com.maddyhome.idea.vim.newapi.vim
+import org.acejump.session.AceJumpListener
+import org.acejump.session.SessionManager
+
+class EasyMotionActionListener : AnActionListener {
+    override fun beforeActionPerformed(action: AnAction, dataContext: DataContext, event: AnActionEvent) {
+        val editor = dataContext.getData(CommonDataKeys.EDITOR) ?: return
+        val actionId = ActionManager.getInstance().getId(action)
+        if (actionId !in MappingConfigurator.aceJumpAlternatives.keys) return
+
+        // Add position to jump list
+        injector.jumpService.saveJumpLocation(editor.vim)
+        val offsetBeforeJump = editor.caretModel.offset
+
+        SessionManager[editor]?.let { session ->
+            session.addAceJumpListener(object : AceJumpListener {
+                override fun finished(mark: String?, query: String?) {
+                    // Remove position from jumps list if caret haven't moved
+                    if (offsetBeforeJump == editor.caretModel.offset) {
+                        injector.jumpService.dropLastJump(editor.vim)
+                    }
+
+                    session.removeAceJumpListener(this)
+                }
+            })
+        }
+    }
+}
