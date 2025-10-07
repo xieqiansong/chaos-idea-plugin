@@ -12,6 +12,7 @@
         <vimExtension implementation="lan.confusion.idea.plugin.Peekaboo"/>
     </extensions>
 
+
     <extensions defaultExtensionNs="IdeaVIM">
         <vimExtension implementation="org.jetbrains.plugins.extension.easymotion.EasyMotionExtension" name="easymotion">
             <aliases>
@@ -26,6 +27,7 @@
         <listener class="org.jetbrains.plugins.extension.easymotion.EasyMotionActionListener"
                   topic="com.intellij.openapi.actionSystem.ex.AnActionListener"/>
     </projectListeners>
+
 
     <!-- Extension points defined by the plugin.
      Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
@@ -42,6 +44,10 @@
                   topic="com.intellij.ide.ui.LafManagerListener"/>
     </applicationListeners>
 
+
+    <extensions defaultExtensionNs="IdeaVIM">
+        <vimExtension implementation="com.julienphalip.ideavim.functiontextobj.FunctionTextObj"/>
+    </extensions>
 
 
     <!--    <extensions defaultExtensionNs="com.intellij">-->
