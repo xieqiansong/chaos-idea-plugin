@@ -50,6 +50,11 @@
     </extensions>
 
 
+    <extensions defaultExtensionNs="IdeaVIM">
+        <vimExtension implementation="eu.theblob42.idea.whichkey.WhichKeyExtension" name="which-key"/>
+    </extensions>
+
+
     <!--    <extensions defaultExtensionNs="com.intellij">-->
     <!--        <toolWindow id="CustomToolWindow" anchor="right" factoryClass="lan.confusion.idea.plugin.CustomToolWindowFactory"/>-->
     <!--    </extensions>-->
