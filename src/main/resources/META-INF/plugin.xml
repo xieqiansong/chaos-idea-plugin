@@ -27,6 +27,22 @@
                   topic="com.intellij.openapi.actionSystem.ex.AnActionListener"/>
     </projectListeners>
 
+    <!-- Extension points defined by the plugin.
+     Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="IdeaVIM">
+        <vimExtension implementation="com.joshestein.ideavimquickscope.IdeaVimQuickscopeExtension" name="quickscope">
+            <aliases>
+                <alias name="https://github.com/unblevable/quick-scope"/>
+                <alias name="unblevable/quick-scope"/>
+            </aliases>
+        </vimExtension>
+    </extensions>
+    <applicationListeners>
+        <listener class="com.joshestein.ideavimquickscope.LafListener"
+                  topic="com.intellij.ide.ui.LafManagerListener"/>
+    </applicationListeners>
+
+
 
     <!--    <extensions defaultExtensionNs="com.intellij">-->
     <!--        <toolWindow id="CustomToolWindow" anchor="right" factoryClass="lan.confusion.idea.plugin.CustomToolWindowFactory"/>-->
