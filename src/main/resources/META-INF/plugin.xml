@@ -1,8 +1,10 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>lan.confusion.confusion-idea-plugin</id>
+    <id>lan.confusion.chaos-idea-plugin</id>
     <name>CustomScript</name>
     <vendor email="xieqiansong@qq.com" url="http://confusion.lan">Confusion</vendor>
+
+    <version>1.0.2</version>
 
     <depends>com.intellij.modules.platform</depends>
     <depends>IdeaVIM</depends>

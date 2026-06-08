@@ -1,10 +1,10 @@
 pluginManagement {
     repositories {
-        maven { url = uri("https://ubuntu.lan:10122/repository/maven-public") }
+        maven { url = uri("https://maven.aliyun.com/repository/central") }
         gradlePluginPortal()
     }
 }
 
-rootProject.name = "confusion-idea-plugin"
+rootProject.name = "chaos-idea-plugin"
 
 include("IdeaVIM", "AceJump")

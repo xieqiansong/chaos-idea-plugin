@@ -5,14 +5,14 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "1.9.24"
     id("org.jetbrains.intellij.platform") version "2.1.0"
     id("com.diffplug.spotless") version "6.25.0"
-    id("pmd")
+//    id("pmd")
 }
 
 repositories {
-    maven { url = uri("https://ubuntu.lan:10122/repository/maven-public") }
+    maven { url = uri("https://maven.aliyun.com/repository/central") }
     mavenCentral()
     intellijPlatform {
-        maven { url = uri("https://ubuntu.lan:10122/repository/maven-public") }
+        maven { url = uri("https://maven.aliyun.com/repository/central") }
         mavenCentral()
         defaultRepositories()
     }
@@ -26,9 +26,9 @@ dependencies {
     compileOnly("org.projectlombok:lombok:1.18.36")
     annotationProcessor("org.projectlombok:lombok:1.18.36")
     intellijPlatform {
-        local("D:\\opt\\ideaIU-2024.3.6")
+//        local("D:\\opt\\ideaIU-2024.3.6")
 
-//        create("IC", "2024.2.1")
+        create("IC", "2024.3.6")
 
         plugins("AceJump:3.8.22")
         plugins("IdeaVIM:2.18.1")
