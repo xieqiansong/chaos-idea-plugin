@@ -1,5 +1,6 @@
 package eu.theblob42.idea.whichkey.config
 
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.editor.colors.EditorColorsManager
 import com.intellij.openapi.ui.popup.Balloon
 import com.intellij.openapi.ui.popup.JBPopupFactory
@@ -153,8 +154,14 @@ object PopupConfig {
 
         displayBalloonJob = GlobalScope.launch {
             delay(delay)
-            newWhichKeyBalloon.show(target, Balloon.Position.above)
-            currentBalloon = newWhichKeyBalloon
+            // show() touches Swing components and must run on the EDT, otherwise it can
+            // corrupt the component tree and throw ArrayIndexOutOfBoundsException on JLayeredPane
+            ApplicationManager.getApplication().invokeLater {
+                if (!newWhichKeyBalloon.isDisposed) {
+                    newWhichKeyBalloon.show(target, Balloon.Position.above)
+                    currentBalloon = newWhichKeyBalloon
+                }
+            }
         }
     }
 
