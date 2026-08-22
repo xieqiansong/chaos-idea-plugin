@@ -4,7 +4,7 @@
     <name>CustomScript</name>
     <vendor email="xieqiansong@qq.com" url="http://confusion.lan">Confusion</vendor>
 
-    <version>1.0.2</version>
+    <version>1.0.3</version>
 
     <depends>com.intellij.modules.platform</depends>
     <depends>org.jetbrains.plugins.terminal</depends>
@@ -66,6 +66,8 @@
         <group id="CustomGroup" text="Custom Actions" popup="true" description="My custom text replacement actions">
             <action id="Custom.SendToTerminal" class="lan.confusion.idea.plugin.SendToTerminalAction"
                     text="Send to Terminal" description="Send selected text to terminal"/>
+            <action id="Custom.DumpTerminalOutput" class="lan.confusion.idea.plugin.DumpTerminalOutputAction"
+                    text="Dump Terminal Output to File" description="Dump all terminal output to $CUSTOM_HOME/terminal-out/*.log (keeps refreshing)"/>
             <action id="Custom.Reverse" class="lan.confusion.idea.plugin.CustomReplaceAction$Reverse"
                     text="Reverse" description="Invert string"/>
             <action id="Custom.Minify" class="lan.confusion.idea.plugin.CustomReplaceAction$Minify"
