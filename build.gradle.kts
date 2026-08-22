@@ -83,6 +83,11 @@ tasks {
         }
     }
 
+    // Java 源码统一使用 UTF-8 编码（源码文件含中文注释），避免在 GBK 平台默认编码下编译失败
+    withType<JavaCompile> {
+        options.encoding = "UTF-8"
+    }
+
     wrapper {
         gradleVersion = gradleVersion
     }
