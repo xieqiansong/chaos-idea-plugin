@@ -267,8 +267,9 @@ public final class TerminalOutputDumper {
             Method getView = tabClass.getMethod("getView");
 
             Set<String> usedTitles = new HashSet<>();
+            String projectName = project.getName();
             for (Object tab : tabs) {
-                String title = resolveTitle(getContent.invoke(tab), usedTitles);
+                String title = resolveTitle(projectName, getContent.invoke(tab), usedTitles);
 
                 Object view = getView.invoke(tab);
                 if (view == null) {
@@ -285,16 +286,17 @@ public final class TerminalOutputDumper {
         return result;
     }
 
-    private static String resolveTitle(Object content, Set<String> usedTitles) {
-        String title = "Terminal";
+    private static String resolveTitle(String projectName, Object content, Set<String> usedTitles) {
+        String terminalTitle = "Terminal";
         if (content instanceof Content) {
             String displayName = ((Content) content).getDisplayName();
             if (displayName != null && !displayName.isBlank()) {
-                title = displayName;
+                terminalTitle = displayName;
             }
         }
-        // 多终端标题可能重复，追加序号保证文件不互相覆盖
-        String base = title;
+        // 文件名以「项目名_终端标题」前缀区分多项目；同项目内标题重复仍追加序号
+        String base = projectName + "_" + terminalTitle;
+        String title = base;
         int index = 1;
         while (!usedTitles.add(title)) {
             title = base + " (" + index++ + ")";

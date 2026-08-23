@@ -4,7 +4,7 @@
     <name>CustomScript</name>
     <vendor email="xieqiansong@qq.com" url="https://github.com/xieqiansong/chaos-idea-plugin">Confusion</vendor>
 
-    <version>1.0.3</version>
+    <version>1.0.4</version>
 
     <depends>com.intellij.modules.platform</depends>
     <depends>org.jetbrains.plugins.terminal</depends>
