@@ -1,0 +1,36 @@
+NOTICE
+======
+
+本插件基于 GPL-3.0 发布（见 LICENSE）。项目内包含并分发以下第三方扩展的源代码/思路，
+各自保留其原始许可证与版权声明。请在分发或修改时遵守各组件对应的许可证条款。
+
+This program bundles third-party IdeaVim extensions. Each component keeps its
+original license and copyright notice. See the LICENSE file for the overall
+GPL-3.0 terms of this plugin.
+
+第三方组件 / Third-Party Components
+-----------------------------------
+
+1. IdeaVim EasyMotion（easymotion 扩展）
+   - 源码位置：src/main/kotlin/org/jetbrains/plugins/extension/easymotion/
+   - 许可证：GPL-3.0-or-later
+   - 版权：Copyright (C) 2019-2022 Alex Plate（出自各源文件头）
+   - 来源：https://github.com/AlexPl292/IdeaVim-EasyMotion
+
+2. IdeaVim Which-Key（which-key 扩展）
+   - 源码位置：src/main/kotlin/eu/theblob42/idea/whichkey/
+   - 许可证：GPL-3.0
+   - 版权：Tobias Völzel（TheBlob42）
+   - 来源：https://github.com/TheBlob42/idea-which-key
+
+3. QuickScope（quickscope 扩展）
+   - 本地重写实现：src/main/java/lan/confusion/idea/plugin/QuickScopeExtension.java
+   - 状态：Clean-room 独立重构，不包含第三方源码
+   - 功能思路参考原 vim 插件 https://github.com/unblevable/quick-scope（MIT）
+
+4. FunctionTextObj 与 Peekaboo
+   - 源码位置：src/main/java/com/julienphalip/ideavim/
+   - 许可证：MIT
+   - 版权：Copyright (c) 2024 Julien Phalip
+   - 来源：https://github.com/jphalip/ideavim-functiontextobj
+            https://github.com/jphalip/ideavim-peekaboo

@@ -2,7 +2,7 @@
 <idea-plugin>
     <id>lan.confusion.chaos-idea-plugin</id>
     <name>CustomScript</name>
-    <vendor email="xieqiansong@qq.com" url="http://confusion.lan">Confusion</vendor>
+    <vendor email="xieqiansong@qq.com" url="https://github.com/xieqiansong/chaos-idea-plugin">Confusion</vendor>
 
     <version>1.0.3</version>
 
@@ -35,17 +35,13 @@
     <!-- Extension points defined by the plugin.
      Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="IdeaVIM">
-        <vimExtension implementation="com.joshestein.ideavimquickscope.IdeaVimQuickscopeExtension" name="quickscope">
+        <vimExtension implementation="lan.confusion.idea.plugin.QuickScopeExtension" name="quickscope">
             <aliases>
                 <alias name="https://github.com/unblevable/quick-scope"/>
                 <alias name="unblevable/quick-scope"/>
             </aliases>
         </vimExtension>
     </extensions>
-    <applicationListeners>
-        <listener class="com.joshestein.ideavimquickscope.LafListener"
-                  topic="com.intellij.ide.ui.LafManagerListener"/>
-    </applicationListeners>
 
 
     <extensions defaultExtensionNs="IdeaVIM">
