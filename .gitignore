@@ -37,3 +37,6 @@ bin/
 .intellijPlatform
 
 .gradle-local-cache
+
+# AI 临时产物（中间文件 / 一次性脚本，不进版本库）
+.scratch/
